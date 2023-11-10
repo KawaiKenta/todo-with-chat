@@ -1,4 +1,4 @@
-.PHONY: help build build-local up down logs ps test
+.PHONY: help build build-local up down logs ps test front-start front-exec front-install
 .DEFAULT_GOAL := help
 
 DOCKER_TAG := latest
@@ -20,6 +20,15 @@ logs: ## Tail docker compose logs
 
 ps: ## Check container status
 	docker compose ps
+
+front-start: ## Start react dev server
+	docker compose exec -w /app/todo-react frontend npm start
+
+front-exec: ## Enter the container shell
+	docker compose exec frontend bash
+
+front-install: ## Execute npm install
+	docker compose exec -w /app/todo-react frontend npm install
 
 help: ## Show options
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \

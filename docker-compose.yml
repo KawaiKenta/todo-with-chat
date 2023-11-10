@@ -10,3 +10,12 @@ services:
       - ./backend:/app
     ports:
       - "8080:8080"
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+
