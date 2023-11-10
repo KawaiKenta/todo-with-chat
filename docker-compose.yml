@@ -22,7 +22,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - db-data:/var/lib/mysql
-      - $PWD/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
+      - $PWD/backend/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
     ports:
       - "3306:3306"
   frontend:
