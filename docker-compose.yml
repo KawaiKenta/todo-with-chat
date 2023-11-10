@@ -10,6 +10,21 @@ services:
       - ./backend:/app
     ports:
       - "8080:8080"
+  db:
+    image: mysql:latest
+    depends_on:
+      - backend
+    container_name: todo-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - db-data:/var/lib/mysql
+      - $PWD/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
+    ports:
+      - "3306:3306"
   frontend:
     build: ./frontend
     volumes:
@@ -18,4 +33,5 @@ services:
       - 3000:3000
     tty: true
     stdin_open: true
-
+volumes:
+  db-data:
