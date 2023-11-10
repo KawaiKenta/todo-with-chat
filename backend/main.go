@@ -12,10 +12,24 @@ func main() {
 }
 
 func run() error {
-	if err := http.ListenAndServe(":8080", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello, world!"))
-	})); err != nil {
-		return err
+	// TODO: muxを分割する
+	// http.ServeMux satisfy interface of http.Handler
+	mux := http.NewServeMux()
+	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		// json形式で返す
+		w.Header().Set("Content-Type", "application/json")
+		res := `{"status": "Ok"}`
+		w.Write([]byte(res))
+	})
+	mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		res := `{"message": "Hello, World!"}`
+		w.Write([]byte(res))
+	})
+
+	s := &http.Server{
+		Addr:    ":8080",
+		Handler: mux,
 	}
-	return nil
+	return s.ListenAndServe()
 }
