@@ -21,7 +21,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
-      - db-data:/var/lib/mysql
+      - $PWD/backend/_tools/mysql/initdb.d:/docker-entrypoint-initdb.d
       - $PWD/backend/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
     ports:
       - "3306:3306"
@@ -33,5 +33,3 @@ services:
       - 3000:3000
     tty: true
     stdin_open: true
-volumes:
-  db-data:

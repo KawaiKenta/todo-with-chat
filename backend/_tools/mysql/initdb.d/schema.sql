@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS `tasks`;
+
+DROP TABLE IF EXISTS `users`;
+
 CREATE TABLE
     `users` (
         `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ユーザーの識別子',
@@ -24,3 +28,80 @@ CREATE TABLE
         PRIMARY KEY (`id`),
         CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
     ) Engine = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = 'タスク';
+
+INSERT INTO users (name, email) VALUES ('test', 'testuser@mail.com');
+
+INSERT INTO
+    tasks (
+        user_id,
+        title,
+        content,
+        due_date,
+        priority,
+        status,
+        last_modified_by
+    )
+VALUES (
+        1,
+        'test',
+        'test',
+        '2023-12-10',
+        '中',
+        '未着手',
+        'user'
+    ), (
+        1,
+        'test1',
+        'test1',
+        '2023-12-10',
+        '高',
+        '未着手',
+        'user'
+    ), (
+        1,
+        'test2',
+        'test2',
+        '2023-12-10',
+        '低',
+        '未着手',
+        'AI'
+    );
+
+INSERT INTO
+    tasks (
+        user_id,
+        title,
+        content,
+        priority,
+        status,
+        last_modified_by
+    )
+VALUES (
+        1,
+        'test3',
+        'test3',
+        '中',
+        '未着手',
+        'user'
+    ), (
+        1,
+        'test4',
+        'test4',
+        '高',
+        '着手中',
+        'user'
+    ), (
+        1,
+        'test5',
+        'test5',
+        '低',
+        '削除済み',
+        'AI'
+    ), (
+        1,
+        'test6',
+        'test6',
+        '中',
+        '完了',
+        'user'
+    )
