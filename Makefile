@@ -2,6 +2,9 @@
 .DEFAULT_GOAL := help
 
 DOCKER_TAG := latest
+## .envファイルを読み込む 読み込んだ変数は$(変数名)で参照できる
+include .env
+
 build: ## Build docker image to deploy
 	docker build -t kawaken629/todo-with-chat:${DOCKER_TAG} \
 		--target deploy ./
@@ -20,6 +23,13 @@ logs: ## Tail docker compose logs
 
 ps: ## Check container status
 	docker compose ps
+
+dry-migrate: ## Try migration
+	echo $(MYSQL_USER), $(MYSQL_PASSWORD), $(MYSQL_DATABASE)
+	mysqldef -u $(MYSQL_USER) -p $(MYSQL_PASSWORD) -h 127.0.0.1 -P 3306 $(MYSQL_DATABASE) --dry-run < ./backend/_tools/mysql/schema.sql
+
+migrate:  ## Execute migration
+	mysqldef -u $(MYSQL_USER) -p $(MYSQL_PASSWORD) -h 127.0.0.1 -P 3306 $(MYSQL_DATABASE) < ./backend/_tools/mysql/schema.sql
 
 front-start: ## Start react dev server
 	docker compose exec -w /app/todo-react frontend npm start
