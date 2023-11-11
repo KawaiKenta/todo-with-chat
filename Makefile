@@ -25,7 +25,6 @@ ps: ## Check container status
 	docker compose ps
 
 dry-migrate: ## Try migration
-	echo $(MYSQL_USER), $(MYSQL_PASSWORD), $(MYSQL_DATABASE)
 	mysqldef -u $(MYSQL_USER) -p $(MYSQL_PASSWORD) -h 127.0.0.1 -P 3306 $(MYSQL_DATABASE) --dry-run < ./backend/_tools/mysql/schema.sql
 
 migrate:  ## Execute migration
