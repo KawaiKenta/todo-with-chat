@@ -9,14 +9,16 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/KawaiKenta/todo-with-chat/config"
 	"github.com/KawaiKenta/todo-with-chat/entity"
 	"github.com/KawaiKenta/todo-with-chat/helper"
 	"github.com/KawaiKenta/todo-with-chat/middleware"
+
 	"golang.org/x/sync/errgroup"
 )
 
 func main() {
-	cnf, err := LoadConfig()
+	cnf, err := config.LoadConfig()
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
 	}
