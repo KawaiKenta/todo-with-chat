@@ -4,6 +4,12 @@
 DOCKER_TAG := latest
 ## .envファイルを読み込む 読み込んだ変数は$(変数名)で参照できる
 include .env
+export
+
+# Prevent recursive Makefile invocations
+ifndef TOP_MAKEFILE
+export TOP_MAKEFILE := $(firstword $(MAKEFILE_LIST))
+endif
 
 build: ## Build docker image to deploy
 	docker build -t kawaken629/todo-with-chat:${DOCKER_TAG} \
@@ -40,5 +46,5 @@ front-install: ## Execute npm install
 	docker compose exec -w /app/todo-react frontend npm install
 
 help: ## Show options
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-			awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(TOP_MAKEFILE) | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
