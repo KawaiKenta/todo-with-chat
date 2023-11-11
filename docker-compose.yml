@@ -6,20 +6,25 @@ services:
       context: ./backend
       args:
         - target=dev
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - ./backend:/app
     ports:
       - "8080:8080"
+    depends_on:
+      - db
   db:
     image: mysql:latest
-    depends_on:
-      - backend
     container_name: todo-db
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      TZ: "Asia/Tokyo"
     volumes:
       - $PWD/backend/_tools/mysql/initdb.d:/docker-entrypoint-initdb.d
       - $PWD/backend/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
