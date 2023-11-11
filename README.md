@@ -2,7 +2,11 @@
 
 チャットアプリと連携した TODO アプリ
 
-#### コンテナ
+### 環境構築
+
+`.env.sample`を参考に`.env`を作成してください。
+
+### コンテナ
 
 基本的に環境構築周りのコマンドは Makefile でまとめてあります
 
@@ -10,6 +14,7 @@
 - `make up` でコンテナを立ち上げる
 - `make logs` でコンテナのログを表示、Ctrl + C で終了
 - `make down` でコンテナを落とす
+- `make migrate` でマイグレーションを実行
 - `make help` その他のコマンドはこちらで確認できます
 
 フロントエンドに関するコマンドは以下の通りです。
@@ -26,7 +31,8 @@
 
 #### データベース
 
-データベースは MySQL を使用します。マイグレーションツールとして sqldef を使用しています。sqldef は go install でインストールできます。
+データベースは MySQL を使用します。`compose.yml`の記述によって、コンテナが立ち上がると同時にテーブルとテストデータが作成されます。環境をリセットしたい場合は`make down`でコンテナを落としてください。
+また必要に応じて、マイグレーションツールとして sqldef を使用できます。sqldef は go install でインストールできます。
 
 ```bash
 $ go install github.com/k0kubun/sqldef/cmd/mysqldef@latest
