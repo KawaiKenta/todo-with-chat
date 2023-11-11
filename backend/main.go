@@ -16,6 +16,12 @@ import (
 )
 
 func main() {
+	cnf, err := LoadConfig()
+	if err != nil {
+		log.Fatalf("failed to load config: %v", err)
+	}
+	log.Printf("config: %+v", cnf)
+
 	if err := run(context.Background()); err != nil {
 		log.Printf("failed to terminate server: %v", err)
 	}
