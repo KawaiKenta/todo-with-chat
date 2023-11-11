@@ -7,8 +7,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
+	"github.com/KawaiKenta/todo-with-chat/helper"
 	"github.com/KawaiKenta/todo-with-chat/middleware"
 	"golang.org/x/sync/errgroup"
 )
@@ -27,13 +27,20 @@ func run(ctx context.Context) error {
 	// http.ServeMux satisfy interface of http.Handler
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(5 * time.Second)
-		res := `{"status": "Ok"}`
-		w.Write([]byte(res))
+		res := struct {
+			Status string `json:"status"`
+		}{
+			Status: "ok",
+		}
+		helper.RespondJSON(ctx, w, res, http.StatusOK)
 	})
 	mux.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		res := `{"message": "Hello, World!"}`
-		w.Write([]byte(res))
+		res := struct {
+			Message string `json:"message"`
+		}{
+			Message: "Hello, World!",
+		}
+		helper.RespondJSON(ctx, w, res, http.StatusOK)
 	})
 
 	s := &http.Server{
