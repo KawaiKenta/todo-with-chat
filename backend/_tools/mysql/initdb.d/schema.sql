@@ -29,7 +29,23 @@ CREATE TABLE
         CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
     ) Engine = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = 'タスク';
 
-INSERT INTO users (name, email) VALUES ('test', 'testuser@mail.com');
+INSERT INTO users (name, email)
+VALUES (
+        'Taro Yamada',
+        'TaroYamada@mail.com'
+    );
+
+INSERT INTO users (name, email)
+VALUES (
+        'Kento Ito',
+        'KentoIto@mail.com'
+    );
+
+INSERT INTO users (name, email)
+VALUES (
+        'Yuki Sato',
+        'YukiSato@mail.com'
+    );
 
 INSERT INTO
     tasks (
