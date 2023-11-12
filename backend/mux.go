@@ -42,5 +42,7 @@ func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 	ut := handler.UpdateTask{Repo: repo, Validator: v}
 	mux.Patch("/task/update", ut.ServeHTTP)
 
+	utk := handler.UserTask{Repo: repo}
+	mux.Get("/task/user/{id}", utk.ServeHTTP)
 	return mux, close, nil
 }

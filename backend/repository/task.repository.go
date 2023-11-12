@@ -6,7 +6,8 @@ import (
 )
 
 type TaskRepository interface {
-	FindAll() ([]entity.Task, error)
+	FindAll() (*[]entity.Task, error)
+	FindUserIDAll(id int) (*[]entity.Task, error)
 	FindByID(id int) (*entity.Task, error)
 	Create(task *entity.Task) (*entity.Task, error)
 	Update(task *entity.Task) (*entity.Task, error)
@@ -21,12 +22,12 @@ func NewMysqlTaskRepository(db *sqlx.DB) *MysqlTaskRepository {
 	return &MysqlTaskRepository{db: db}
 }
 
-func (repo *MysqlTaskRepository) FindAll() ([]entity.Task, error) {
+func (repo *MysqlTaskRepository) FindAll() (*[]entity.Task, error) {
 	var tasks []entity.Task
 	if err := repo.db.Select(&tasks, "SELECT * FROM tasks"); err != nil {
 		return nil, err
 	}
-	return tasks, nil
+	return &tasks, nil
 }
 
 func (repo *MysqlTaskRepository) FindByID(id int) (*entity.Task, error) {
@@ -71,4 +72,12 @@ func (repo *MysqlTaskRepository) DeleteByID(id int) error {
 		return err
 	}
 	return nil
+}
+
+func (repo *MysqlTaskRepository) FindUserIDAll(id int) (*[]entity.Task, error) {
+	var tasks []entity.Task
+	if err := repo.db.Select(&tasks, "SELECT * FROM tasks WHERE user_id = ?", id); err != nil {
+		return nil, err
+	}
+	return &tasks, nil
 }
