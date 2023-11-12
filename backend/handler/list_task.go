@@ -14,7 +14,11 @@ func (lt *ListTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	tasks, err := lt.Repo.FindAll()
 	if err != nil {
-		RespondJSON(ctx, w, err.Error(), http.StatusInternalServerError)
+		rsp := ErrResponse{
+			Message: "Internal Server Error",
+			Details: err.Error(),
+		}
+		RespondJSON(ctx, w, rsp, http.StatusInternalServerError)
 		return
 	}
 	RespondJSON(ctx, w, tasks, http.StatusOK)

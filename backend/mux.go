@@ -26,6 +26,10 @@ func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 
 	repo := repository.NewMysqlTaskRepository(db)
 	lt := handler.ListTask{Repo: repo}
-	mux.Get("/tasks", lt.ServeHTTP)
+	mux.Get("/tasks/all", lt.ServeHTTP)
+
+	td := handler.TaskDetail{Repo: repo}
+	mux.Get("/tasks/{id}", td.ServeHTTP)
+
 	return mux, close, nil
 }
