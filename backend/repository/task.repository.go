@@ -54,7 +54,7 @@ func (repo *MysqlTaskRepository) Update(task entity.Task) (*entity.Task, error) 
 }
 
 func (repo *MysqlTaskRepository) DeleteByID(id int) error {
-	if _, err := repo.db.Exec("DELETE FROM tasks WHERE id = ?", id); err != nil {
+	if _, err := repo.db.Exec("UPDATE tasks SET status = ? WHERE id = ?", entity.Deleted, id); err != nil {
 		return err
 	}
 	return nil
