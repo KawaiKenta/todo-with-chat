@@ -8,8 +8,8 @@ import (
 type TaskRepository interface {
 	FindAll() ([]entity.Task, error)
 	FindByID(id int) (*entity.Task, error)
-	Create(task entity.Task) (*entity.Task, error)
-	Update(task entity.Task) (*entity.Task, error)
+	Create(task *entity.Task) (*entity.Task, error)
+	Update(task *entity.Task) (*entity.Task, error)
 	DeleteByID(id int) error
 }
 
@@ -37,20 +37,32 @@ func (repo *MysqlTaskRepository) FindByID(id int) (*entity.Task, error) {
 	return &task, nil
 }
 
-func (repo *MysqlTaskRepository) Create(task entity.Task) (*entity.Task, error) {
-	if _, err := repo.db.Exec("INSERT INTO tasks (user_id, title, content) VALUES (?, ?, ?)",
-		task.UserID, task.Title, task.Content); err != nil {
+func (repo *MysqlTaskRepository) Create(task *entity.Task) (*entity.Task, error) {
+	r, err := repo.db.Exec(
+		"INSERT INTO tasks (user_id, title, content, due_date, priority, status, last_modified_by) VALUES (?, ?, ?, ?, ?, ?, ?)",
+		task.UserID, task.Title, task.Content,
+		task.DueDate, task.Priority, task.Status, task.LastModifiedBy,
+	)
+	if err != nil {
 		return nil, err
 	}
-	return &task, nil
+	// 挿入されたidをセット
+	// 悩ましいポイント、insertされたCreatedAt, UpdatedAtをセットする必要があるが、
+	// 二回クエリを投げるぐらいなら、タスクのデータをそのまま使う
+	id, err := r.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+	task.ID = int(id)
+	return task, nil
 }
 
-func (repo *MysqlTaskRepository) Update(task entity.Task) (*entity.Task, error) {
+func (repo *MysqlTaskRepository) Update(task *entity.Task) (*entity.Task, error) {
 	if _, err := repo.db.Exec("UPDATE tasks SET title = ?, content = ? WHERE id = ?",
 		task.Title, task.Content, task.ID); err != nil {
 		return nil, err
 	}
-	return &task, nil
+	return task, nil
 }
 
 func (repo *MysqlTaskRepository) DeleteByID(id int) error {

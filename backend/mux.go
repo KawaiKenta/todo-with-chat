@@ -9,6 +9,7 @@ import (
 	"github.com/KawaiKenta/todo-with-chat/handler"
 	"github.com/KawaiKenta/todo-with-chat/repository"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-playground/validator/v10"
 )
 
 func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), error) {
@@ -33,6 +34,10 @@ func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 
 	dt := handler.DeleteTask{Repo: repo}
 	mux.Patch("/task/delete/", dt.ServeHTTP)
+
+	v := validator.New()
+	ct := handler.CreateTask{Repo: repo, Validator: v}
+	mux.Post("/task/create", ct.ServeHTTP)
 
 	return mux, close, nil
 }

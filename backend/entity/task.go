@@ -14,8 +14,8 @@ type Task struct {
 	DueDate        sql.NullTime `json:"due_date,omitempty" db:"due_date"`
 	Priority       string       `json:"priority" db:"priority"`
 	Status         string       `json:"status" db:"status"`
-	CreatedAt      time.Time    `json:"created_at" db:"created_at"`
-	UpdatedAt      time.Time    `json:"updated_at" db:"updated_at"`
+	CreatedAt      time.Time    `json:"created_at,omitempty" db:"created_at"`
+	UpdatedAt      time.Time    `json:"updated_at,omitempty" db:"updated_at"`
 	LastModifiedBy string       `json:"last_modified_by" db:"last_modified_by"`
 }
 
