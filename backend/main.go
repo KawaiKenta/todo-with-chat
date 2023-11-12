@@ -23,7 +23,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
 	}
-	log.Printf("config: %+v", cfg)
 
 	if err := run(context.Background(), cfg); err != nil {
 		log.Printf("failed to terminate server: %v", err)
