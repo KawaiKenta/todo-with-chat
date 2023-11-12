@@ -11,22 +11,22 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type CreateTask struct {
+type UpdateTask struct {
 	Repo      repository.TaskRepository
 	Validator *validator.Validate
 }
 
-func (ct *CreateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (ut *UpdateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var req struct {
-		UserId         int       `json:"user_id" validate:"required"`
-		Title          string    `json:"title" validate:"required"`
-		Content        string    `json:"content" validate:"omitempty"`
-		DueDate        time.Time `json:"due_date" validate:"omitempty"`
-		Priority       string    `json:"priority" validate:"omitempty"`
-		LastModifiedBy string    `json:"last_modified_by" validate:"required"`
-		Status         string    `json:"status" validate:"required"`
+		Id       int       `json:"id" validate:"required"`
+		UserId   int       `json:"user_id" validate:"required"`
+		Title    string    `json:"title" validate:"required"`
+		Content  string    `json:"content" validate:"omitempty"`
+		DueDate  time.Time `json:"due_date" validate:"omitempty"`
+		Priority string    `json:"priority" validate:"omitempty"`
+		Status   string    `json:"status" validate:"required"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		rsp := ErrResponse{
@@ -37,7 +37,7 @@ func (ct *CreateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := ct.Validator.Struct(req); err != nil {
+	if err := ut.Validator.Struct(req); err != nil {
 		rsp := ErrResponse{
 			Message: "Invalid Request",
 			Details: err.Error(),
@@ -55,6 +55,7 @@ func (ct *CreateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	task := entity.Task{
+		ID:      req.Id,
 		UserID:  req.UserId,
 		Title:   req.Title,
 		Content: req.Content,
@@ -62,14 +63,12 @@ func (ct *CreateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			Time:  req.DueDate,
 			Valid: !req.DueDate.IsZero(),
 		},
-		Priority:       p,
-		Status:         req.Status,
-		LastModifiedBy: req.LastModifiedBy,
-		CreatedAt:      time.Now(),
-		UpdatedAt:      time.Now(),
+		Priority:  p,
+		Status:    req.Status,
+		UpdatedAt: time.Now(),
 	}
 
-	insertedTask, err := ct.Repo.Create(&task)
+	insertedTask, err := ut.Repo.Update(&task)
 	if err != nil {
 		rsp := ErrResponse{
 			Message: "Internal Server Error",

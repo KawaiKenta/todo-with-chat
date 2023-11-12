@@ -58,8 +58,9 @@ func (repo *MysqlTaskRepository) Create(task *entity.Task) (*entity.Task, error)
 }
 
 func (repo *MysqlTaskRepository) Update(task *entity.Task) (*entity.Task, error) {
-	if _, err := repo.db.Exec("UPDATE tasks SET title = ?, content = ? WHERE id = ?",
-		task.Title, task.Content, task.ID); err != nil {
+	if _, err := repo.db.Exec(`UPDATE tasks SET title = ?, content = ?, due_date = ?,
+		priority = ?, status = ? WHERE id = ?`,
+		task.Title, task.Content, task.DueDate, task.Priority, task.Status, task.ID); err != nil {
 		return nil, err
 	}
 	return task, nil
