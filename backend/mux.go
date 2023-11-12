@@ -33,7 +33,7 @@ func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 	mux.Get("/task/{id}", td.ServeHTTP)
 
 	dt := handler.DeleteTask{Repo: repo}
-	mux.Patch("/task/delete/", dt.ServeHTTP)
+	mux.Patch("/task/delete", dt.ServeHTTP)
 
 	v := validator.New()
 	ct := handler.CreateTask{Repo: repo, Validator: v}

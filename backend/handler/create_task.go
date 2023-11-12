@@ -26,7 +26,7 @@ func (ct *CreateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		DueDate        time.Time `json:"due_date" validate:"omitempty"`
 		Priority       string    `json:"priority" validate:"omitempty"`
 		LastModifiedBy string    `json:"last_modified_by" validate:"required"`
-		Status         string    `json:"status" validate:"required"`
+		Status         string    `json:"status" validate:"omitempty"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		rsp := ErrResponse{
@@ -53,6 +53,12 @@ func (ct *CreateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	} else {
 		p = req.Priority
 	}
+	var st string
+	if req.Status == "" {
+		st = "未着手"
+	} else {
+		st = req.Status
+	}
 
 	task := entity.Task{
 		UserID:  req.UserId,
@@ -63,7 +69,7 @@ func (ct *CreateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			Valid: !req.DueDate.IsZero(),
 		},
 		Priority:       p,
-		Status:         req.Status,
+		Status:         st,
 		LastModifiedBy: req.LastModifiedBy,
 		CreatedAt:      time.Now(),
 		UpdatedAt:      time.Now(),

@@ -63,9 +63,10 @@ func (ut *UpdateTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			Time:  req.DueDate,
 			Valid: !req.DueDate.IsZero(),
 		},
-		Priority:  p,
-		Status:    req.Status,
-		UpdatedAt: time.Now(),
+		Priority:       p,
+		Status:         req.Status,
+		LastModifiedBy: "user",
+		UpdatedAt:      time.Now(),
 	}
 
 	insertedTask, err := ut.Repo.Update(&task)
