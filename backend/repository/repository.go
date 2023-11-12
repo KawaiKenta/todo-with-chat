@@ -27,6 +27,7 @@ func New(ctx context.Context, cfg *config.Config) (*sqlx.DB, func(), error) {
 	// Openは実際に接続テストが行われない。
 	ctx, cancel := context.WithTimeout(ctx, 2*time.Second)
 	defer cancel()
+
 	if err := db.PingContext(ctx); err != nil {
 		return nil, func() { _ = db.Close() }, err
 	}

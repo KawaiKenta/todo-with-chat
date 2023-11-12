@@ -10,6 +10,8 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
     volumes:
       - ./backend:/app
     ports:
@@ -18,7 +20,7 @@ services:
       - db
   db:
     image: mysql:latest
-    container_name: todo-db
+    container_name: ${MYSQL_HOST}
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_USER: ${MYSQL_USER}
@@ -29,7 +31,7 @@ services:
       - $PWD/backend/_tools/mysql/initdb.d:/docker-entrypoint-initdb.d
       - $PWD/backend/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
     ports:
-      - "3306:3306"
+      - "${MYSQL_PORT}:3306"
   frontend:
     build: ./frontend
     volumes:
