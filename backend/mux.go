@@ -4,13 +4,12 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/KawaiKenta/todo-with-chat/config"
-	"github.com/KawaiKenta/todo-with-chat/entity"
-	"github.com/KawaiKenta/todo-with-chat/helper"
+	"github.com/KawaiKenta/todo-with-chat/handler"
 	"github.com/KawaiKenta/todo-with-chat/repository"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-playground/validator/v10"
 )
 
 func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), error) {
@@ -23,42 +22,25 @@ func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 
 	mux := chi.NewRouter()
 
-	mux.Get("/health", func(w http.ResponseWriter, r *http.Request) {
-		res := struct {
-			Status string `json:"status"`
-		}{
-			Status: "ok",
-		}
-		helper.RespondJSON(ctx, w, res, http.StatusOK)
-	})
+	hc := handler.HealthCheck{}
+	mux.Get("/health", hc.ServeHTTP)
 
-	mux.Get("/hello", func(w http.ResponseWriter, r *http.Request) {
-		// taskを取得する
-		sql := "SELECT * FROM tasks"
-		tasks := []entity.Task{}
-		if err := db.SelectContext(ctx, &tasks, sql); err != nil {
-			log.Printf("failed to select tasks: %v", err)
-			helper.RespondJSON(ctx, w, err, http.StatusInternalServerError)
-			return
-		}
-		// queからレスポンス
-		helper.RespondJSON(ctx, w, tasks, http.StatusOK)
-	})
+	repo := repository.NewMysqlTaskRepository(db)
+	lt := handler.ListTask{Repo: repo}
+	mux.Get("/task/all", lt.ServeHTTP)
 
-	mux.Get("/task", func(w http.ResponseWriter, r *http.Request) {
-		entity := entity.Task{
-			ID:             1,
-			UserID:         1,
-			Title:          "タスクのタイトル",
-			Content:        "タスクの内容",
-			Priority:       entity.InProgress,
-			Status:         entity.NotStarted,
-			CreatedAt:      time.Now(),
-			UpdatedAt:      time.Now(),
-			LastModifiedBy: entity.AI,
-		}
-		helper.RespondJSON(ctx, w, entity, http.StatusOK)
-	})
+	td := handler.TaskDetail{Repo: repo}
+	mux.Get("/task/{id}", td.ServeHTTP)
+
+	dt := handler.DeleteTask{Repo: repo}
+	mux.Patch("/task/delete", dt.ServeHTTP)
+
+	v := validator.New()
+	ct := handler.CreateTask{Repo: repo, Validator: v}
+	mux.Post("/task/create", ct.ServeHTTP)
+
+	ut := handler.UpdateTask{Repo: repo, Validator: v}
+	mux.Patch("/task/update", ut.ServeHTTP)
 
 	return mux, close, nil
 }
