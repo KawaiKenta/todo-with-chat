@@ -7,12 +7,12 @@ import (
 )
 
 type ListTask struct {
-	repo repository.ITaskRepository
+	Repo repository.TaskRepository
 }
 
 func (lt *ListTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	tasks, err := lt.repo.FindAll()
+	tasks, err := lt.Repo.FindAll()
 	if err != nil {
 		RespondJSON(ctx, w, err.Error(), http.StatusInternalServerError)
 		return
