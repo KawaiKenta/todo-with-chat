@@ -1,14 +1,15 @@
 import React from 'react';
-import { Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import UserPage from './pages/UserPage';
 import NotFound from './components/NotFound';
+import { Header } from './components/Header';
 
 const App = () => {
   return (
-    <Container>
-      <div>Header</div>
+    <Box>
+      <Header />
       <Container>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -17,7 +18,7 @@ const App = () => {
         </Routes>
       </Container>
       <div>Footer</div>
-    </Container>
+    </Box>
   );
 };
 
