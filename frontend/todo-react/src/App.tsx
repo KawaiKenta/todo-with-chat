@@ -6,20 +6,23 @@ import UserPage from './pages/UserPage';
 import NotFound from './components/NotFound';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { Provider } from 'jotai';
 
 const App = () => {
   return (
-    <Box>
-      <Header />
+    <Provider>
       <Box>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/user/:userId" element={<UserPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Header />
+        <Box>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/user/:userId" element={<UserPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Box>
+        <Footer />
       </Box>
-      <Footer />
-    </Box>
+    </Provider>
   );
 };
 

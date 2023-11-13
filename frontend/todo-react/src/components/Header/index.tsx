@@ -1,7 +1,11 @@
 import { Box, Link } from '@mui/material';
 import React, { FC } from 'react';
+import { useAtom } from 'jotai';
+import { currentUserAtom } from '../../store/atom';
 
 export const Header: FC = () => {
+  const [currentUser] = useAtom(currentUserAtom);
+  console.log(currentUser);
   return (
     <Box
       sx={{
@@ -39,20 +43,26 @@ export const Header: FC = () => {
           </Link>
         </Box>
         <Box>
-          <Box
-            component="p"
-            sx={{
-              margin: '0 0 5px 0',
-              fontSize: '14px',
-              textAlign: 'center',
-            }}
-          >
-            ログインユーザー
-          </Box>
-          <Box component="h3" sx={{ margin: 0 }}>
-            {/* ログインユーザーの名前を読み取って表示 */}
-            Taro Yamada
-          </Box>
+          {currentUser ? (
+            <>
+              <Box
+                component="p"
+                sx={{
+                  margin: '0 0 5px 0',
+                  fontSize: '14px',
+                  textAlign: 'center',
+                }}
+              >
+                ログインユーザー
+              </Box>
+              <Box component="h3" sx={{ margin: 0 }}>
+                {/* ログインユーザーの名前を読み取って表示 */}
+                Taro Yamada
+              </Box>
+            </>
+          ) : (
+            ''
+          )}
         </Box>
       </Box>
     </Box>
