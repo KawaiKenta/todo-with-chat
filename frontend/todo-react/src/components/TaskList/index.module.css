@@ -1,0 +1,9 @@
+.taskInfoWrapper {
+  display: flex;
+  font-size: large;
+}
+
+.taskInfoWrapper h5 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
