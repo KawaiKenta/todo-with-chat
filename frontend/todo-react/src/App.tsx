@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import UserPage from './pages/UserPage';
 import NotFound from './components/NotFound';
 import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 
 const App = () => {
   return (
@@ -17,7 +18,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>
-      <div>Footer</div>
+      <Footer />
     </Box>
   );
 };
