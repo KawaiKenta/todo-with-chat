@@ -44,7 +44,7 @@ const TaskCard: FC<Task> = (props) => {
         width: '100%',
         border: 2,
         borderColor: '#31a899',
-        marginBottom: 4,
+        marginBottom: 3,
         padding: 0,
       }}
     >
