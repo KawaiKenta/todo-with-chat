@@ -43,7 +43,7 @@ func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 	mux.Patch("/task/update", ut.ServeHTTP)
 
 	utk := handler.UserTask{Repo: taskRepo}
-	mux.Get("/task/user/{id}", utk.ServeHTTP)
+	mux.Get("/user/{id}/tasks", utk.ServeHTTP)
 
 	userRepo := repository.NewMysqlUserRepository(db)
 	ui := handler.UserInfo{Repo: userRepo}
