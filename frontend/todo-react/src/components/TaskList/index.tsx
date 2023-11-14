@@ -1,10 +1,23 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Task, TaskParams } from '../../types/task';
 import { Box, Card, CardContent } from '@mui/material';
 import s from './index.module.css';
+import { Modal } from '../Modal';
 
 // タスクを複数 (props でリストを与える) レンダリングするコンポーネント
 export const TaskList: FC<{ tasks: TaskParams[] }> = ({ tasks }) => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  // Modal の onClose 関数
+  const handleModalClose = (
+    event: React.SyntheticEvent | React.MouseEvent,
+    reason?: string
+  ) => {
+    // モーダルの外をクリックしても閉じないように設定
+    if (reason === 'backdropClick') return;
+    setModalOpen(false);
+  };
+
   return (
     <>
       {tasks.map((params, idx) => {
@@ -18,8 +31,25 @@ export const TaskList: FC<{ tasks: TaskParams[] }> = ({ tasks }) => {
           status: params.status,
           lastModifiedBy: params.last_modified_by,
         };
-        return <Box key={idx}>{TaskCard(task)}</Box>;
+        return (
+          <Box
+            component="a"
+            key={idx}
+            onClick={() => {
+              setModalOpen(true);
+            }}
+            sx={{ ':hover': { cursor: 'pointer' } }}
+          >
+            {TaskCard(task)}
+          </Box>
+        );
       })}
+      <Modal open={modalOpen} onClose={handleModalClose}>
+        <div>
+          <h2>Modal Content</h2>
+          <p>This is the content of the modal.</p>
+        </div>
+      </Modal>
     </>
   );
 };
