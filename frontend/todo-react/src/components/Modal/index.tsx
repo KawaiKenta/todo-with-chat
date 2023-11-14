@@ -15,6 +15,7 @@ type ModalProps = {
     event: React.SyntheticEvent | React.MouseEvent,
     reason?: string
   ) => void;
+  title?: string;
   children: React.ReactNode;
 };
 
@@ -22,7 +23,12 @@ type CustomPaperProps = {
   children?: React.ReactNode;
 };
 
-export const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
+export const Modal: React.FC<ModalProps> = ({
+  open,
+  onClose,
+  title = '',
+  children,
+}) => {
   // Dialog のスタイルを上書き
   const CustomPaper: FC<CustomPaperProps> = ({ children }) => {
     return (
@@ -51,7 +57,7 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
         },
       }}
     >
-      <DialogTitle>タスクの編集・削除</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">

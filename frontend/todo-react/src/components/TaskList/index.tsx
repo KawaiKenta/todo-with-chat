@@ -97,7 +97,11 @@ const TaskCard: FC<Task> = (props) => {
         </Card>
       </Box>
       {/* モーダル */}
-      <Modal open={modalOpen} onClose={handleModalClose}>
+      <Modal
+        open={modalOpen}
+        onClose={handleModalClose}
+        title="タスクの編集・削除"
+      >
         <TaskForm
           task={props}
           onSubmit={() => {

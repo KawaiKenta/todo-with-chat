@@ -1,11 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useParams } from 'react-router';
 import NotFound from '../../components/NotFound';
-import { Box } from '@mui/material';
+import { Box, Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { useAtom } from 'jotai';
 import { currentUserAtom } from '../../store/atom';
 import { TaskParams } from '../../types/task';
 import { TaskList } from '../../components/TaskList';
+import { Modal } from '../../components/Modal';
+import { TaskForm } from '../../components/TaskForm';
 
 // サンプルデータ (API からデータを取得する処理を追加する)
 const sampleTaskParams: TaskParams[] = [
@@ -94,6 +97,24 @@ const RenderedComponent = (userId: string) => {
 
 const UserPage: FC = () => {
   const [currentUser] = useAtom(currentUserAtom);
+  const [newTaskModalOpen, setNewTaskModalOpen] = useState<boolean>(false);
+
+  // Modal の onClose 関数
+  const handleNewTaskModalClose = (
+    event: React.SyntheticEvent | React.MouseEvent,
+    reason?: string
+  ) => {
+    // モーダルの外をクリックしても閉じないように設定
+    if (reason === 'backdropClick') return;
+    setNewTaskModalOpen(false);
+  };
+
+  // Modal の onSubmit 関数
+  const handleNewTaskFormSubmit = () => {
+    console.log('submitted');
+    setNewTaskModalOpen(false);
+  };
+
   console.log(currentUser);
   // URLからユーザIDを取得
   const { userId } = useParams<{ userId: string }>();
@@ -101,10 +122,43 @@ const UserPage: FC = () => {
 
   return (
     <Box sx={{ width: '90%', margin: '10px auto' }}>
-      <Box component="h1" color="#000000df" fontSize="28px">
-        タスク一覧
-      </Box>
-      {userId && RenderedComponent(userId)}
+      <>
+        <Box component="h1" color="#000000df" fontSize="28px">
+          タスク一覧
+        </Box>
+        {userId && RenderedComponent(userId)}
+        {/* 新規タスクボタン */}
+        <Fab
+          sx={{
+            position: 'fixed',
+            bottom: 4,
+            right: 4,
+            marginRight: 2,
+            marginBottom: 2,
+            backgroundColor: '#31a899',
+            ':hover': {
+              backgroundColor: '#31a899',
+            },
+          }}
+          onClick={() => {
+            setNewTaskModalOpen(true);
+          }}
+        >
+          <AddIcon
+            sx={{
+              color: '#fff',
+            }}
+          />
+        </Fab>
+        {/* 新規タスクモーダル */}
+        <Modal
+          open={newTaskModalOpen}
+          onClose={handleNewTaskModalClose}
+          title="タスクの作成"
+        >
+          <TaskForm onSubmit={handleNewTaskFormSubmit} buttonValue="作成" />
+        </Modal>
+      </>
     </Box>
   );
 };
