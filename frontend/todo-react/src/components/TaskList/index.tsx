@@ -20,7 +20,10 @@ export const TaskList: FC<{ tasks: TaskParams[] }> = ({ tasks }) => {
           status: params.status,
           lastModifiedBy: params.last_modified_by,
         };
-        return <Box key={idx}>{TaskCard(task)}</Box>;
+        return (
+          // 削除済みのタスクは表示しない
+          task.status !== '削除済み' && <Box key={idx}>{TaskCard(task)}</Box>
+        );
       })}
     </>
   );
