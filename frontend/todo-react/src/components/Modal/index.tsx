@@ -26,7 +26,14 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
   // Dialog のスタイルを上書き
   const CustomPaper: FC<CustomPaperProps> = ({ children }) => {
     return (
-      <Box sx={{ boxShadow: 'none', backgroundColor: '#fff', borderRadius: 2 }}>
+      <Box
+        sx={{
+          boxShadow: 'none',
+          backgroundColor: '#fff',
+          borderRadius: 2,
+          minWidth: '60%',
+        }}
+      >
         {children}
       </Box>
     );
@@ -40,7 +47,7 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
       PaperComponent={CustomPaper}
       slotProps={{
         backdrop: {
-          style: { backgroundColor: 'rgba(0, 0, 0, 0.15)' },
+          style: { backgroundColor: 'rgba(0, 0, 0, 0.4)' },
         },
       }}
     >
