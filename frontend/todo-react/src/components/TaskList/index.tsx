@@ -4,6 +4,9 @@ import { Box, Card, CardContent } from '@mui/material';
 import s from './index.module.css';
 import { Modal } from '../Modal';
 import { TaskForm } from '../TaskForm';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 
 // タスクを複数 (props でリストを与える) レンダリングするコンポーネント
 export const TaskList: FC<{ tasks: TaskParams[] }> = ({ tasks }) => {
@@ -74,18 +77,35 @@ const TaskCard: FC<Task> = (props) => {
           }}
         >
           <CardContent sx={customLastChildStyle}>
-            <Box
-              component="h3"
-              sx={{
-                margin: '0 0 5px',
-              }}
-            >
-              {title}
+            <Box display="flex" alignItems="center" marginBottom={1}>
+              <Box
+                component="h5"
+                marginTop={0}
+                marginBottom={0}
+                marginRight={2}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <Box component="span">{status}</Box>
+                {/* 状態に応じたアイコンを表示 */}
+                <Box component="span">
+                  {status === '完了' ? (
+                    <TaskAltIcon />
+                  ) : status === '着手中' ? (
+                    <AutorenewIcon />
+                  ) : status === '未着手' ? (
+                    <AssignmentOutlinedIcon />
+                  ) : (
+                    ''
+                  )}
+                </Box>
+              </Box>
+              <Box component="h3" margin={0}>
+                {title}
+              </Box>
             </Box>
             <div className={s.taskInfoWrapper}>
-              <Box component="h5" marginRight={4}>
-                状態: {status}
-              </Box>
               <Box component="h5" marginRight={4}>
                 優先度: {priority}
               </Box>
