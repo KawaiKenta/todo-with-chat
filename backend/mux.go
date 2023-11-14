@@ -25,24 +25,28 @@ func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 	hc := handler.HealthCheck{}
 	mux.Get("/health", hc.ServeHTTP)
 
-	repo := repository.NewMysqlTaskRepository(db)
-	lt := handler.ListTask{Repo: repo}
+	taskRepo := repository.NewMysqlTaskRepository(db)
+	lt := handler.ListTask{Repo: taskRepo}
 	mux.Get("/task/all", lt.ServeHTTP)
 
-	td := handler.TaskDetail{Repo: repo}
+	td := handler.TaskDetail{Repo: taskRepo}
 	mux.Get("/task/{id}", td.ServeHTTP)
 
-	dt := handler.DeleteTask{Repo: repo}
+	dt := handler.DeleteTask{Repo: taskRepo}
 	mux.Patch("/task/delete", dt.ServeHTTP)
 
 	v := validator.New()
-	ct := handler.CreateTask{Repo: repo, Validator: v}
+	ct := handler.CreateTask{Repo: taskRepo, Validator: v}
 	mux.Post("/task/create", ct.ServeHTTP)
 
-	ut := handler.UpdateTask{Repo: repo, Validator: v}
+	ut := handler.UpdateTask{Repo: taskRepo, Validator: v}
 	mux.Patch("/task/update", ut.ServeHTTP)
 
-	utk := handler.UserTask{Repo: repo}
+	utk := handler.UserTask{Repo: taskRepo}
 	mux.Get("/task/user/{id}", utk.ServeHTTP)
+
+	userRepo := repository.NewMysqlUserRepository(db)
+	ui := handler.UserInfo{Repo: userRepo}
+	mux.Get("/user/{id}", ui.ServeHTTP)
 	return mux, close, nil
 }
