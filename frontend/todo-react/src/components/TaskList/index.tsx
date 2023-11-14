@@ -7,6 +7,7 @@ import { TaskForm } from '../TaskForm';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import { status as st } from '../../constants';
 
 // タスクを複数 (props でリストを与える) レンダリングするコンポーネント
 export const TaskList: FC<{ tasks: TaskParams[] }> = ({ tasks }) => {
@@ -90,11 +91,11 @@ const TaskCard: FC<Task> = (props) => {
                 <Box component="span">{status}</Box>
                 {/* 状態に応じたアイコンを表示 */}
                 <Box component="span">
-                  {status === '完了' ? (
+                  {status === st.done ? (
                     <TaskAltIcon />
-                  ) : status === '着手中' ? (
+                  ) : status === st.doing ? (
                     <AutorenewIcon />
-                  ) : status === '未着手' ? (
+                  ) : status === st.notStarted ? (
                     <AssignmentOutlinedIcon />
                   ) : (
                     ''

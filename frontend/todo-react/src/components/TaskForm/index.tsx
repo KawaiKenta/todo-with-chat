@@ -14,6 +14,7 @@ import { Task } from '../../types/task';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { status, priority } from '../../constants';
 
 type TaskFormProps = {
   task?: Task;
@@ -48,9 +49,9 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
             {...register('status', { required: '状態は必須です' })}
             variant="outlined"
           >
-            <MenuItem value="未着手">未着手</MenuItem>
-            <MenuItem value="着手中">着手中</MenuItem>
-            <MenuItem value="完了">完了</MenuItem>
+            <MenuItem value={status.notStarted}>{status.notStarted}</MenuItem>
+            <MenuItem value={status.doing}>{status.doing}</MenuItem>
+            <MenuItem value={status.done}>{status.done}</MenuItem>
           </Select>
           {errors.status && <span>{errors.status.message}</span>}
         </FormControl>
@@ -60,9 +61,9 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
             {...register('priority', { required: '優先度は必須です' })}
             variant="outlined"
           >
-            <MenuItem value="高">高</MenuItem>
-            <MenuItem value="中">中</MenuItem>
-            <MenuItem value="低">低</MenuItem>
+            <MenuItem value={priority.high}>{priority.high}</MenuItem>
+            <MenuItem value={priority.middle}>{priority.middle}</MenuItem>
+            <MenuItem value={priority.low}>{priority.low}</MenuItem>
           </Select>
           {errors.priority && <span>{errors.priority.message}</span>}
         </FormControl>
