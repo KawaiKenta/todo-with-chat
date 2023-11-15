@@ -34,6 +34,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box display="flex" flexDirection="column">
+        {/* タイトル */}
         <FormControl margin="normal">
           <TextField
             label="タイトル"
@@ -43,6 +44,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
           />
           {errors.title && <span>{errors.title.message}</span>}
         </FormControl>
+        {/* 状態 */}
         <FormControl margin="normal">
           <InputLabel id="status">状態</InputLabel>
           <Select
@@ -55,6 +57,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
           </Select>
           {errors.status && <span>{errors.status.message}</span>}
         </FormControl>
+        {/* 優先度 */}
         <FormControl margin="normal">
           <InputLabel id="priority">優先度</InputLabel>
           <Select
@@ -67,6 +70,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
           </Select>
           {errors.priority && <span>{errors.priority.message}</span>}
         </FormControl>
+        {/* 期限 */}
         <FormControl margin="normal">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
@@ -79,6 +83,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
             />
           </LocalizationProvider>
         </FormControl>
+        {/* 詳細 */}
         <FormControl margin="normal">
           <TextField
             id="content"
