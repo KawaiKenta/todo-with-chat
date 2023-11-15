@@ -1,18 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import NotFound from '../../components/NotFound';
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useAtom } from 'jotai';
-import { currentUserAtom } from '../../store/atom';
 import { TaskParams } from '../../types/task';
 import { TaskList } from '../../components/TaskList';
 import { Modal } from '../../components/Modal';
 import { TaskForm } from '../../components/TaskForm';
-// import { useFetchTasksByUser } from '../../api/task';
-import { AxiosResponse } from 'axios';
 import { fetchTasksByUser } from '../../api/task';
-
+import NotFound from '../../components/NotFound';
 // サンプルデータ (API からデータを取得する処理を追加する)
 // const sampleTaskParams: TaskParams[] = [
 //   {
@@ -77,26 +72,18 @@ import { fetchTasksByUser } from '../../api/task';
 //   },
 // ];
 
-// const currentUserParams: UserParams =
-
 const UserPage: FC = () => {
   // URLからユーザIDを取得
   const userIdParam = useParams<{ userId: string }>().userId;
-  // console.log(userIdParam);
 
-  // console.log(userId);
-  // ユーザIDを数値に変換
+  // ユーザIDを数値に変換 (数値でない場合には 0 で初期化)
   const userId: number = !isNaN(Number(userIdParam)) ? Number(userIdParam) : 0;
   // console.log(userId);
 
   // const [currentUser] = useAtom(currentUserAtom);
+
   const [newTaskModalOpen, setNewTaskModalOpen] = useState<boolean>(false);
   const [fetchedTasks, setFetchedTasks] = useState<TaskParams[]>([]);
-  // const { fetchTasksByUser } = userId
-  //   ? // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     useFetchTasksByUser(Number(userId))
-  //   : // eslint-disable-next-line react-hooks/rules-of-hooks
-  //     useFetchTasksByUser(0);
 
   // API からユーザーに紐づいたタスクを読み取り
   useEffect(() => {
@@ -104,29 +91,21 @@ const UserPage: FC = () => {
       const fetchedData = await fetchTasksByUser(userId);
       setFetchedTasks(fetchedData);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // const fetchedTasks = userId ? useFetchTasksByUser(Number(userId)) : undefined;
-  console.log(fetchedTasks);
+  // console.log(fetchedTasks);
 
   const RenderedComponent = () => {
-    <>{<TaskList tasks={fetchedTasks} />}</>;
     // userId が数値であるかを判定
     // aaa や 123bb などがはじかれる
-    // if (!isNaN(Number(userId))) {
-    //   return (
-    //     <>
-    //       {/* <h1>ユーザーページ</h1> */}
-    //       {/* <h2>ユーザーID: {userId}</h2> */}
-    //       {/* userId を数値として使用する場合 */}
-    //       {/* parseInt(userId, 10) */}
-    //       {fetchedTasks && <TaskList tasks={fetchedTasks} />}
-    //     </>
-    //   );
-    // } else {
-    //   // データを正しく取得できない場合のエラーを入れる
-    //   return <NotFound />;
-    // }
+    if (userId !== 0) {
+      return <>{fetchedTasks && <TaskList tasks={fetchedTasks} />}</>;
+    } else {
+      // データを正しく取得できない場合のエラーを入れる
+      return <NotFound />;
+    }
   };
 
   // Modal の onClose 関数
@@ -150,11 +129,8 @@ const UserPage: FC = () => {
         <Box component="h1" color="#000000df" fontSize="28px">
           タスク一覧
         </Box>
-        {/* {RenderedComponent()}
-         */}
-        <TaskList tasks={fetchedTasks} />
-        {/* {fetchedTasks && <TaskList tasks={fetchedTasks} />} */}
-        {/* 新規タスクボタン */}
+        {/* タスクリストのレンダリング */}
+        {RenderedComponent()}
         <Fab
           sx={{
             position: 'fixed',

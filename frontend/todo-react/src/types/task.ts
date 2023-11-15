@@ -4,7 +4,7 @@ export type TaskParams = {
   user_id: number;
   title: string;
   content: string;
-  due_date: string | null;
+  due_date: { Time: string; Valid: boolean } | null;
   priority: string;
   status: string;
   created_at?: string;

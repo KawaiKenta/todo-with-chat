@@ -19,7 +19,12 @@ export const TaskList: FC<{ tasks: TaskParams[] }> = ({ tasks }) => {
           userId: params.user_id,
           title: params.title,
           content: params.content,
-          dueDate: params.due_date,
+          dueDate:
+            // due_date: {Time: '0001-01-01T00:00:00Z', Valid: false}
+            // Valid: false のとき null 判定
+            params.due_date && params.due_date.Valid
+              ? params.due_date.Time
+              : null,
           priority: params.priority,
           status: params.status,
           lastModifiedBy: params.last_modified_by,
