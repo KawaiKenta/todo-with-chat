@@ -118,7 +118,7 @@ const UserPage: FC = () => {
   console.log(currentUser);
   // URLからユーザIDを取得
   const { userId } = useParams<{ userId: string }>();
-  // console.log();
+  // console.log(userId);
 
   return (
     <Box sx={{ width: '90%', margin: '10px auto' }}>
