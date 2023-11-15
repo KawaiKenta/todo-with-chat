@@ -23,7 +23,8 @@ export const TaskList: FC<{ tasks: TaskParams[] }> = ({ tasks }) => {
             // due_date: {Time: '0001-01-01T00:00:00Z', Valid: false}
             // Valid: false のとき null 判定
             params.due_date && params.due_date.Valid
-              ? params.due_date.Time
+              ? // YYYY-MM-DDTHH::mm:ssZ を YYYY-MM-DD に加工
+                new Date(params.due_date.Time).toISOString().split('T')[0]
               : null,
           priority: params.priority,
           status: params.status,
