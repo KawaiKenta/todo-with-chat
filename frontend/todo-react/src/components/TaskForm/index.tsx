@@ -31,6 +31,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
           name="title"
           control={control}
           rules={{ required: 'タイトルは必須です。' }}
+          defaultValue=""
           render={({ field }) => {
             return (
               <TextField
@@ -50,6 +51,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
         <Controller
           name="status"
           control={control}
+          defaultValue=""
           rules={{ required: '状態は必須です' }}
           render={({ field }) => {
             return (
@@ -79,6 +81,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
         <Controller
           name="priority"
           control={control}
+          defaultValue=""
           rules={{ required: '優先度は必須です' }}
           render={({ field }) => {
             return (
@@ -110,10 +113,30 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
                 <DatePicker
                   {...field}
                   label="期限"
+                  defaultValue={undefined}
                   format="YYYY-MM-DD"
                   sx={{ mt: 2 }}
                   value={task ? dayjs(task.dueDate) : undefined}
                 />
+                {/* <DatePicker
+                  {...field}
+                  format='YYYY-MM-DD'
+                  defaultValue={undefined}
+                  sx={{ mt: 2 }}
+                  value={task ? dayjs(task.dueDate) : undefined}
+                  renderInput={(
+                    params: JSX.IntrinsicAttributes & TextFieldProps
+                  ) => (
+                    <TextField
+                      {...params}
+                      inputProps={{
+                        ...params.inputProps,
+                        placeholder: dayjs().format('YYYY-MM-DD'),
+                      }}
+                      label="dueDate"
+                    />
+                  )}
+                /> */}
               </LocalizationProvider>
             );
           }}
@@ -122,6 +145,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
         <Controller
           name="content"
           control={control}
+          defaultValue=""
           render={({ field }) => {
             return (
               <TextField

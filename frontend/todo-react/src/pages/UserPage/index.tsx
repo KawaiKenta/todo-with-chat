@@ -2,11 +2,11 @@ import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { TaskParams } from '../../types/task';
+import { FetchedTaskParams, Task } from '../../types/task';
 import { TaskList } from '../../components/TaskList';
 import { Modal } from '../../components/Modal';
 import { TaskForm } from '../../components/TaskForm';
-import { fetchTasksByUser } from '../../api/task';
+import { createTask, fetchTasksByUser } from '../../api/task';
 import NotFound from '../../components/NotFound';
 // サンプルデータ (API からデータを取得する処理を追加する)
 // const sampleTaskParams: TaskParams[] = [
@@ -83,7 +83,7 @@ const UserPage: FC = () => {
   // const [currentUser] = useAtom(currentUserAtom);
 
   const [newTaskModalOpen, setNewTaskModalOpen] = useState<boolean>(false);
-  const [fetchedTasks, setFetchedTasks] = useState<TaskParams[]>([]);
+  const [fetchedTasks, setFetchedTasks] = useState<FetchedTaskParams[]>([]);
 
   // API からユーザーに紐づいたタスクを読み取り
   useEffect(() => {
@@ -119,9 +119,12 @@ const UserPage: FC = () => {
   };
 
   // Modal の onSubmit 関数
-  const handleNewTaskFormSubmit = () => {
-    console.log('submitted');
-    setNewTaskModalOpen(false);
+  const handleNewTaskFormSubmit = (task: Task) => {
+    // console.log('submitted');
+    console.log(task);
+    console.log(task.dueDate);
+    // createTask(task);
+    // setNewTaskModalOpen(false);
   };
   return (
     <Box sx={{ width: '90%', margin: '10px auto' }}>

@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Task, TaskParams } from '../../types/task';
+import { Task, FetchedTaskParams } from '../../types/task';
 import { Box, Card, CardContent } from '@mui/material';
 import s from './index.module.css';
 import { Modal } from '../Modal';
@@ -10,7 +10,7 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { status as st } from '../../constants';
 
 // タスクを複数 (props でリストを与える) レンダリングするコンポーネント
-export const TaskList: FC<{ tasks: TaskParams[] }> = ({ tasks }) => {
+export const TaskList: FC<{ tasks: FetchedTaskParams[] }> = ({ tasks }) => {
   return (
     <>
       {tasks.map((params, idx) => {
