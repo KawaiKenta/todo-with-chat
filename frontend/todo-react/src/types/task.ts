@@ -34,3 +34,14 @@ export type CreateTaskParams = {
   due_date?: string;
   last_modified_by: string;
 };
+
+// タスク更新時に API へ送信するタスク型
+export type UpdateTaskParams = {
+  id: number;
+  user_id: number;
+  title: string;
+  content: string;
+  status: string;
+  priority: string;
+  due_date?: string;
+};

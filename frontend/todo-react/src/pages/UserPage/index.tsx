@@ -31,7 +31,7 @@ const UserPage: FC = () => {
   const [displayCompletedTask, setDisplayCompletedTask] =
     useState<boolean>(false);
 
-  const [activeSnackbar, setActivesnackbar] = useAtom(activeSnackbarState);
+  const [, setActivesnackbar] = useAtom(activeSnackbarState);
 
   // API からユーザーに紐づいたタスクを読み取り
   useEffect(() => {
@@ -91,7 +91,7 @@ const UserPage: FC = () => {
       ? dayjs(task.dueDate).format('YYYY-MM-DD')
       : null;
     // ユーザー id を設定
-    task.id = userId;
+    task.userId = userId;
     createTask(task);
     setNewTaskModalOpen(false);
     setActivesnackbar(true);

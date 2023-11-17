@@ -8,6 +8,11 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { status as st, status } from '../../constants';
+import dayjs from 'dayjs';
+import { useParams } from 'react-router';
+import { updateTask } from '../../api/task';
+import { activeSnackbarState } from '../../store/atom';
+import { useAtom } from 'jotai';
 
 // タスクを複数 (props でリストを与える) レンダリングするコンポーネント
 export const TaskList: FC<{
@@ -16,6 +21,7 @@ export const TaskList: FC<{
   // if (!displayCompletedTask) {
   //   tasks = tasks.filter((task) => task.status !== status.done);
   // }
+
   return (
     <>
       {tasks.map((params, idx) => {
@@ -63,6 +69,14 @@ const TaskCard: FC<Task> = (props) => {
   const { title, content, dueDate, priority, status, lastModifiedBy } = props;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+  const [, setActivesnackbar] = useAtom(activeSnackbarState);
+
+  // URLからユーザIDを取得
+  const userIdParam = useParams<{ userId: string }>().userId;
+
+  // ユーザIDを数値に変換 (数値でない場合には 0 で初期化)
+  const userId: number = !isNaN(Number(userIdParam)) ? Number(userIdParam) : 0;
+
   // Modal の onClose 関数
   const handleModalClose = (
     event: React.SyntheticEvent | React.MouseEvent,
@@ -71,6 +85,19 @@ const TaskCard: FC<Task> = (props) => {
     // モーダルの外をクリックしても閉じないように設定
     if (reason === 'backdropClick') return;
     setModalOpen(false);
+  };
+
+  // 更新フォームの onSubmit 関数
+  const handleUpdateTaskFormSubmit = (task: Task) => {
+    // 日付がある場合、YYYY-MM-DD に変更する
+    task.dueDate = task.dueDate
+      ? dayjs(task.dueDate).format('YYYY-MM-DD')
+      : null;
+    // ユーザー id を設定
+    task.userId = userId;
+    updateTask(task);
+    setModalOpen(false);
+    setActivesnackbar(true);
   };
 
   return (
@@ -162,9 +189,7 @@ const TaskCard: FC<Task> = (props) => {
       >
         <TaskForm
           task={props}
-          onSubmit={() => {
-            console.log('submitted');
-          }}
+          onSubmit={handleUpdateTaskFormSubmit}
           buttonValue="更新"
           buttonStyles={{
             backgroundColor: '#31a899',
