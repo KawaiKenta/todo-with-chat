@@ -162,7 +162,14 @@ const UserPage: FC = () => {
           onClose={handleNewTaskModalClose}
           title="タスクの作成"
         >
-          <TaskForm onSubmit={handleNewTaskFormSubmit} buttonValue="作成" />
+          <TaskForm
+            onSubmit={handleNewTaskFormSubmit}
+            buttonValue="作成"
+            buttonStyles={{
+              backgroundColor: '#31a899',
+              ':hover': { backgroundColor: '#31a899' },
+            }}
+          />
         </Modal>
       </>
     </Box>

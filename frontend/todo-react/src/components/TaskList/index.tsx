@@ -138,6 +138,10 @@ const TaskCard: FC<Task> = (props) => {
             console.log('submitted');
           }}
           buttonValue="更新"
+          buttonStyles={{
+            backgroundColor: '#31a899',
+            ':hover': { backgroundColor: '#31a899' },
+          }}
         />
       </Modal>
     </>
