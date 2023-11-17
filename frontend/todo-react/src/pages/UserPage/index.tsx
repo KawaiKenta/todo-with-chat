@@ -29,7 +29,7 @@ const UserPage: FC = () => {
   // deleted, completed 以外
   // const [filteredTasks, setFilterdTasks] = useState<FetchedTaskParams[]>([]);
   const [displayCompletedTask, setDisplayCompletedTask] =
-    useState<boolean>(false);
+    useState<boolean>(true);
 
   const [, setActivesnackbar] = useAtom(activeSnackbarState);
 
