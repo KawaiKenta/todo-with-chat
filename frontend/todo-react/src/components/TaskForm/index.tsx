@@ -153,7 +153,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
                 multiline
                 fullWidth
                 sx={{ mt: 2, mb: 4 }}
-                rows={4}
+                rows={2}
                 id="content"
                 label="詳細"
                 variant="outlined"
