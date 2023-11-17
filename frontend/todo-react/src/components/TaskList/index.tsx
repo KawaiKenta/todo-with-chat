@@ -53,7 +53,7 @@ const customLastChildStyle = {
 
 // 1つのタスクカードに対応するコンポーネント
 const TaskCard: FC<Task> = (props) => {
-  const { title, content, dueDate, priority, status } = props;
+  const { title, content, dueDate, priority, status, lastModifiedBy } = props;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   // Modal の onClose 関数
@@ -116,6 +116,25 @@ const TaskCard: FC<Task> = (props) => {
               <Box component="h3" margin={0}>
                 {title}
               </Box>
+              {/* AI による自動生成のタグ */}
+              {lastModifiedBy === 'AI' && (
+                <Box
+                  component="span"
+                  sx={{
+                    backgroundColor: '#31a899',
+                    color: '#fff',
+                    border: 2,
+                    borderRadius: 3,
+                    pt: 0.5,
+                    pb: 0.5,
+                    pl: 1,
+                    pr: 1,
+                    ml: 2,
+                  }}
+                >
+                  AI による自動生成
+                </Box>
+              )}
             </Box>
             <div className={s.taskInfoWrapper}>
               <Box component="h5" marginRight={4}>
