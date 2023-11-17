@@ -28,8 +28,8 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       TZ: "Asia/Tokyo"
     volumes:
-      - $PWD/backend/_tools/mysql/initdb.d:/docker-entrypoint-initdb.d
-      - $PWD/backend/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
+      - ./backend/_tools/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./backend/_tools/mysql/conf.d:/etc/mysql/conf.d:cached
     ports:
       - "${MYSQL_PORT}:3306"
   frontend:
@@ -37,6 +37,6 @@ services:
     volumes:
       - ./frontend:/app
     ports:
-      - 3000:3000
+      - 3030:3000
     tty: true
     stdin_open: true
