@@ -9,7 +9,8 @@ import { TaskForm } from '../../components/TaskForm';
 import { createTask, fetchTasksByUser } from '../../api/task';
 import NotFound from '../../components/NotFound';
 import dayjs from 'dayjs';
-import { status } from '../../constants';
+import { activeSnackbarState } from '../../store/atom';
+import { useAtom } from 'jotai';
 
 const UserPage: FC = () => {
   // URLからユーザIDを取得
@@ -29,6 +30,8 @@ const UserPage: FC = () => {
   // const [filteredTasks, setFilterdTasks] = useState<FetchedTaskParams[]>([]);
   const [displayCompletedTask, setDisplayCompletedTask] =
     useState<boolean>(false);
+
+  const [activeSnackbar, setActivesnackbar] = useAtom(activeSnackbarState);
 
   // API からユーザーに紐づいたタスクを読み取り
   useEffect(() => {
@@ -91,6 +94,7 @@ const UserPage: FC = () => {
     task.id = userId;
     createTask(task);
     setNewTaskModalOpen(false);
+    setActivesnackbar(true);
   };
   return (
     <Box sx={{ width: '90%', margin: '10px auto' }}>

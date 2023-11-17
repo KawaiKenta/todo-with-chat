@@ -7,11 +7,13 @@ import NotFound from './components/NotFound';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Provider } from 'jotai';
+import { Snackbar } from './components/Snackbar';
 
 const App = () => {
   return (
     <Provider>
       <Box>
+        <Snackbar />
         <Header />
         <Box>
           <Routes>
