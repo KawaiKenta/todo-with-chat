@@ -12,4 +12,4 @@ export const priority = {
   low: '低',
 };
 
-export const API_BASE_URL = 'http://localhost:8080';
+export const API_BASE_URL = 'https://164.70.114.204/chat/go';
