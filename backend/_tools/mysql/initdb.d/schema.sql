@@ -29,6 +29,13 @@ CREATE TABLE
         CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
     ) Engine = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = 'タスク';
 
+CREATE TABLE
+    `slack_users` (
+        `user_id` BIGINT UNSIGNED NOT NULL COMMENT 'ユーザーの識別子',
+        `slack_id` VARCHAR(80) NOT NULL COMMENT 'SlackのユーザーID',
+        CONSTRAINT `fk_user_slack` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    ) Engine = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = 'ユーザーとSlackの紐付け';
+
 INSERT INTO users (name, email)
 VALUES (
         'Taro Yamada',
@@ -228,3 +235,7 @@ VALUES (
         '未着手',
         'user'
     );
+
+INSERT INTO
+    slack_users (user_id, slack_id)
+VALUES (1, 'U04C2SYER3R'), (2, 'U04CVU9HQ4R'), (3, 'U04CHBVE21G');

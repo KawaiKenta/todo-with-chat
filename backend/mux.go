@@ -39,6 +39,10 @@ func NewMux(ctx context.Context, cfg *config.Config) (http.Handler, func(), erro
 	ct := handler.CreateTask{Repo: taskRepo, Validator: v}
 	mux.Post("/task/create", ct.ServeHTTP)
 
+	slackRepo := repository.NewMysqlSlackRepository(db)
+	cta := handler.CreateTaskAI{SlackRepo: slackRepo, Repo: taskRepo, Validator: v}
+	mux.Post("/task/create/ai", cta.ServeHTTP)
+
 	ut := handler.UpdateTask{Repo: taskRepo, Validator: v}
 	mux.Patch("/task/update", ut.ServeHTTP)
 
