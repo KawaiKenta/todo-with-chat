@@ -7,6 +7,7 @@ import {
   DialogActions,
   Box,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 // MyModalコンポーネントのProps型定義
 type ModalProps = {
@@ -57,13 +58,20 @@ export const Modal: React.FC<ModalProps> = ({
         },
       }}
     >
-      <DialogTitle>{title}</DialogTitle>
+      <Box display="flex" justifyContent="space-between">
+        <DialogTitle>{title}</DialogTitle>
+        <DialogActions>
+          <Button onClick={onClose}>
+            <CloseIcon
+              sx={{
+                color: '#31a899',
+              }}
+              fontSize="medium"
+            />
+          </Button>
+        </DialogActions>
+      </Box>
       <DialogContent>{children}</DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Close
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };

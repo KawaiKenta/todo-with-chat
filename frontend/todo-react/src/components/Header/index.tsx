@@ -1,11 +1,16 @@
 import { Box, Link } from '@mui/material';
 import React, { FC } from 'react';
-import { useAtom } from 'jotai';
-import { currentUserAtom } from '../../store/atom';
+import { useParams } from 'react-router';
+// import { useAtom } from 'jotai';
+// import { currentUserAtom } from '../../store/atom';
 
 export const Header: FC = () => {
-  const [currentUser] = useAtom(currentUserAtom);
-  console.log(currentUser);
+  // const [currentUser] = useAtom(currentUserAtom);
+  // console.log(currentUser);
+
+  // URL パラメータからユーザー id を取得(あとで修正)
+  const currentUser = useParams<{ userId: string }>();
+
   return (
     <Box
       sx={{

@@ -1,10 +1,10 @@
 // API から取得するタスクの型
-export type TaskParams = {
+export type FetchedTaskParams = {
   id: number;
   user_id: number;
   title: string;
   content: string;
-  due_date: string | null;
+  due_date: { Time: string; Valid: boolean } | null;
   priority: string;
   status: string;
   created_at?: string;
@@ -22,4 +22,26 @@ export type Task = {
   priority: string;
   status: string;
   lastModifiedBy: string;
+};
+
+// 新規作成時に API へ送信するタスクの型
+export type CreateTaskParams = {
+  user_id: number;
+  title: string;
+  content: string;
+  status: string;
+  priority: string;
+  due_date?: string;
+  last_modified_by: string;
+};
+
+// タスク更新時に API へ送信するタスク型
+export type UpdateTaskParams = {
+  id: number;
+  user_id: number;
+  title: string;
+  content: string;
+  status: string;
+  priority: string;
+  due_date?: string;
 };
