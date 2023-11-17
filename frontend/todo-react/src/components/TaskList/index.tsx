@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Task, FetchedTaskParams } from '../../types/task';
-import { Box, Card, CardContent } from '@mui/material';
+import { Box, Button, Card, CardContent } from '@mui/material';
 import s from './index.module.css';
 import { Modal } from '../Modal';
 import { TaskForm } from '../TaskForm';
@@ -193,9 +193,21 @@ const TaskCard: FC<Task> = (props) => {
           buttonValue="更新"
           buttonStyles={{
             backgroundColor: '#31a899',
+            width: '50%',
+            margin: '0 auto',
             ':hover': { backgroundColor: '#31a899' },
           }}
         />
+        <Box textAlign="center">
+          <Button
+            type="submit"
+            variant="contained"
+            color="info"
+            sx={{ width: '50%', mt: 2 }}
+          >
+            削除
+          </Button>
+        </Box>
       </Modal>
     </>
   );
