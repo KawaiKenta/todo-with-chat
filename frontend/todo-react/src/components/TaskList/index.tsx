@@ -7,10 +7,15 @@ import { TaskForm } from '../TaskForm';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
-import { status as st } from '../../constants';
+import { status as st, status } from '../../constants';
 
 // タスクを複数 (props でリストを与える) レンダリングするコンポーネント
-export const TaskList: FC<{ tasks: FetchedTaskParams[] }> = ({ tasks }) => {
+export const TaskList: FC<{
+  tasks: FetchedTaskParams[];
+}> = ({ tasks }) => {
+  // if (!displayCompletedTask) {
+  //   tasks = tasks.filter((task) => task.status !== status.done);
+  // }
   return (
     <>
       {tasks.map((params, idx) => {
@@ -32,7 +37,9 @@ export const TaskList: FC<{ tasks: FetchedTaskParams[] }> = ({ tasks }) => {
         };
         return (
           // 削除済みのタスクは表示しない
-          task.status !== '削除済み' && <Box key={idx}>{TaskCard(task)}</Box>
+          task.status !== status.deleted && (
+            <Box key={idx}>{TaskCard(task)}</Box>
+          )
         );
       })}
     </>
