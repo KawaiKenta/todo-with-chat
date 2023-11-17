@@ -37,6 +37,6 @@ services:
     volumes:
       - ./frontend:/app
     ports:
-      - 3030:3000
+      - 3000:3000
     tty: true
     stdin_open: true
