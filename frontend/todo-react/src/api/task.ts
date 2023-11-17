@@ -24,9 +24,7 @@ export const createTask = async (task: Task) => {
       content: task.content,
       status: task.status,
       priority: task.priority,
-      dueDate: task.dueDate
-        ? { Time: `${task.dueDate}T00::00:00Z`, Valid: true }
-        : undefined,
+      due_date: task.dueDate ? `${task.dueDate}T00:00:00Z` : undefined,
       last_modified_by: 'user',
     };
     const postData = await axios.post(`${API_BASE_URL}/task/create`, params);

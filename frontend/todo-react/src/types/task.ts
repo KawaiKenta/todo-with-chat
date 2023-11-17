@@ -31,6 +31,6 @@ export type CreateTaskParams = {
   content: string;
   status: string;
   priority: string;
-  dueDate?: { Time: string; Valid: boolean };
+  due_date?: string;
   last_modified_by: string;
 };

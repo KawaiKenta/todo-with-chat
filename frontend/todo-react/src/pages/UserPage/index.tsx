@@ -8,6 +8,7 @@ import { Modal } from '../../components/Modal';
 import { TaskForm } from '../../components/TaskForm';
 import { createTask, fetchTasksByUser } from '../../api/task';
 import NotFound from '../../components/NotFound';
+import dayjs from 'dayjs';
 // サンプルデータ (API からデータを取得する処理を追加する)
 // const sampleTaskParams: TaskParams[] = [
 //   {
@@ -120,11 +121,14 @@ const UserPage: FC = () => {
 
   // Modal の onSubmit 関数
   const handleNewTaskFormSubmit = (task: Task) => {
-    // console.log('submitted');
-    console.log(task);
-    console.log(task.dueDate);
-    // createTask(task);
-    // setNewTaskModalOpen(false);
+    // 日付がある場合、YYYY-MM-DD に変更する
+    task.dueDate = task.dueDate
+      ? dayjs(task.dueDate).format('YYYY-MM-DD')
+      : null;
+    // ユーザー id を設定
+    task.id = userId;
+    createTask(task);
+    setNewTaskModalOpen(false);
   };
   return (
     <Box sx={{ width: '90%', margin: '10px auto' }}>

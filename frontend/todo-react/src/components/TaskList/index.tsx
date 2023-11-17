@@ -45,6 +45,7 @@ const customLastChildStyle = {
   paddingLeft: 2,
   paddingRight: 2,
   paddingBottom: 2,
+  // position: 'relative',
   '&:last-child': {
     paddingBottom: 2,
   },
@@ -82,8 +83,12 @@ const TaskCard: FC<Task> = (props) => {
             marginBottom: 3,
             padding: 0,
           }}
+          variant="outlined"
         >
           <CardContent sx={customLastChildStyle}>
+            {/* <Typography position="absolute" sx={{ top: -10, left: 0 }}>
+              title
+            </Typography> */}
             <Box display="flex" alignItems="center" marginBottom={1}>
               <Box
                 component="h5"
