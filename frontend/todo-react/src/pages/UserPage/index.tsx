@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Box, Button, Fab } from '@mui/material';
+import { Box, Button, Fab, createTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { FetchedTaskParams, Task } from '../../types/task';
 import { TaskList } from '../../components/TaskList';
@@ -12,6 +12,19 @@ import dayjs from 'dayjs';
 import { activeSnackbarState } from '../../store/atom';
 import { useAtom } from 'jotai';
 
+let theme = createTheme(
+  {
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 768,
+        lg: 1025,
+        xl: 1536,
+      }
+    }
+  }
+)
 const UserPage: FC = () => {
   // URLからユーザIDを取得
   const userIdParam = useParams<{ userId: string }>().userId;
@@ -99,11 +112,11 @@ const UserPage: FC = () => {
   return (
     <Box sx={{ width: '90%', margin: '10px auto' }}>
       <>
-        <Box mb={2} mr={10} display="flex" alignItems="center">
-          <Box component="h1" color="#000000df" fontSize="28px">
+        <Box mb={2} mr={10} display="flex" alignItems="start" sx={{flexDirection: "column",width:"100%"}}>
+          <Box component="h1" color="#000000df" fontSize="28px" sx={{whiteSpace:"nowrap"}} >
             タスク一覧
           </Box>
-          <Box ml={10}>
+          <Box sx={{width:"95%", display:"flex", marginX:"auto", justifyContent:"space-between", alignItems:"center"}}>
             {displayCompletedTask ? (
               <Button
                 variant="contained"
