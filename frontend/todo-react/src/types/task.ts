@@ -45,3 +45,8 @@ export type UpdateTaskParams = {
   priority: string;
   due_date?: string;
 };
+
+// タスク削除時に API へ送信するパラメータの型
+export type DeleteTaskParams = {
+  id: number,
+}

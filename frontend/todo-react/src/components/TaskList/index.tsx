@@ -10,7 +10,7 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import { status as st, status } from '../../constants';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router';
-import { updateTask } from '../../api/task';
+import { updateTask, deleteTask } from '../../api/task';
 import { activeSnackbarState } from '../../store/atom';
 import { useAtom } from 'jotai';
 
@@ -97,6 +97,7 @@ const TaskCard: FC<Task> = (props) => {
     task.userId = userId;
     updateTask(task);
     setModalOpen(false);
+    window.location.reload();
     setActivesnackbar(true);
   };
 
@@ -200,10 +201,15 @@ const TaskCard: FC<Task> = (props) => {
         />
         <Box textAlign="center">
           <Button
-            type="submit"
+            // type="submit"
             variant="contained"
             color="info"
             sx={{ width: '50%', mt: 2 }}
+            onClick={() => {
+              deleteTask(props);
+              setModalOpen(false);
+              window.location.reload();
+            }}
           >
             削除
           </Button>

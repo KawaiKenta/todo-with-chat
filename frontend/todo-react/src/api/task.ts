@@ -4,6 +4,7 @@ import {
   CreateTaskParams,
   Task,
   UpdateTaskParams,
+  DeleteTaskParams,
 } from '../types/task';
 import { API_BASE_URL } from '../constants';
 
@@ -62,3 +63,19 @@ export const updateTask = async (task: Task) => {
     console.log('Update was failed: ', error);
   }
 };
+
+// タスク削除を行うメソッド
+export const deleteTask = async (task: Task) => {
+  try {
+    const params: DeleteTaskParams = {
+      id: task.id,
+    };
+    const deleteData = await axios.patch(`${API_BASE_URL}/task/delete`, params);
+    console.log(params);
+    if (deleteData.status == 200) {
+      console.log('Successfully Deleted!');
+    }
+  } catch (error) {
+    console.log('Delete was failed: ', error);
+  }
+}
