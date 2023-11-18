@@ -37,7 +37,7 @@ const UserPage: FC = () => {
   useEffect(() => {
     (async () => {
       const fetchedData = await fetchTasksByUser(userId);
-      setFetchedTasks(fetchedData);
+      setFetchedTasks(fetchedData.reverse());
       // console.log(fetchedData.filter((task) => task.status !== status.done));
       // const displayData = fetchedData.filter(
       //   (task) => task.status !== status.deleted

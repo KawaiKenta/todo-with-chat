@@ -161,7 +161,7 @@ export const TaskForm: FC<TaskFormProps> = (props) => {
             );
           }}
         />
-        <Button type="submit" variant="contained" sx={buttonStyles}>
+        <Button type="submit" variant="contained" sx={buttonStyles} onClick={() => {window.location.reload()}}>
           {buttonValue}
         </Button>
       </Box>
